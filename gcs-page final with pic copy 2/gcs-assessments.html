@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>GCS Assessments Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Main navigation">
+        <div class="sidebar__profile">
+          <img class="avatar" src="img/Avatar.svg" alt="User profile picture" />
+        </div>
+
+        <nav class="nav" aria-label="Sidebar navigation">
+          <button class="nav__btn nav__btn--active" aria-label="Patients" aria-current="page">
+            <img src="img/patientsSelect.svg" alt="" />
+          </button>
+
+          <button class="nav__btn" aria-label="Dashboard">
+            <img src="img/profileSelect.svg" alt="" />
+          </button>
+
+          <button class="nav__btn" aria-label="Sign out">
+              <img class="logout-icon" src="img/LofoutSelect.svg" alt="" />
+          </button>
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <main class="main">
+        <!-- Current GCS -->
+        <section class="section">
+          <h1 class="title center">Current GCS Result</h1>
+
+          <div class="current">
+            <article class="card total">
+  <div class="total__score-wrap">
+    <span class="total__score">12</span>
+    <span class="total__outof">/15</span>
+  </div>
+
+  <div class="total__label">Total Score</div>
+  <div class="pill pill--moderate">Moderate</div>
+</article>
+
+
+            <article class="card metric">
+              <div class="metric__name">Eye</div>
+              <div class="metric__value">4</div>
+              <div class="metric__outof">/4</div>
+            </article>
+
+            <article class="card metric">
+              <div class="metric__name">Verbal</div>
+              <div class="metric__value">3</div>
+              <div class="metric__outof">/5</div>
+            </article>
+
+            <article class="card metric">
+              <div class="metric__name">Motor</div>
+              <div class="metric__value">5</div>
+              <div class="metric__outof">/6</div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Upcoming -->
+        <section class="section">
+          <h2 class="title">Upcoming Assessment</h2>
+
+          <div class="upcoming">
+            <p class="upcoming__text">Next Assessment in 2 hours (04:00 PM)</p>
+            <button class="btn btn--primary" type="button">
+              <span>Schedule</span>
+              <img class="btn__icon" src="img/schedule.svg" alt="" />
+            </button>
+          </div>
+        </section>
+
+        <!-- Recent Results -->
+        <section class="section">
+          <h2 class="title">Recent Results</h2>
+
+          <div class="table-wrap" role="region" aria-label="Recent assessment results table" tabindex="0">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Eye</th>
+                  <th scope="col">Verbal</th>
+                  <th scope="col">Motor</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>11/10/2025</td>
+                  <td>12:00 PM</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>5</td>
+                  <td>12</td>
+                  <td><span class="pill pill--moderate">Moderate</span></td>
+                </tr>
+
+                <tr>
+                  <td>11/10/2025</td>
+                  <td>08:00 AM</td>
+                  <td>4</td>
+                  <td>4</td>
+                  <td>5</td>
+                  <td>13</td>
+                  <td><span class="pill pill--mild">Mild</span></td>
+                </tr>
+
+                <tr>
+                  <td>11/10/2025</td>
+                  <td>04:00 AM</td>
+                  <td>3</td>
+                  <td>3</td>
+                  <td>4</td>
+                  <td>10</td>
+                  <td><span class="pill pill--severe">Severe</span></td>
+                </tr>
+
+                <tr>
+                  <td>11/10/2025</td>
+                  <td>12:00 AM</td>
+                  <td>4</td>
+                  <td>3</td>
+                  <td>5</td>
+                  <td>12</td>
+                  <td><span class="pill pill--moderate">Moderate</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
