@@ -1,0 +1,248 @@
+/* =========================
+   1. GLOBAL RESET
+========================= */
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", Helvetica, Arial, sans-serif;
+  background-color: #fcfafa;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:focus-visible {
+  outline: 2px solid #2588cf;
+}
+
+/* =========================
+   2. VARIABLES
+========================= */
+:root {
+  --primary: #2588cf;
+  --sidebar-bg: #f3f8fc;
+  --text-dark: #2a292e;
+  --text-muted: #6c6c6e;
+  --border-light: #bdbdc1;
+  --white: #ffffff;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+}
+
+/* =========================
+   3. PAGE LAYOUT
+========================= */
+.patients-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* =========================
+   4. SIDEBAR
+========================= */
+.sidebar {
+  width: 233px;
+  background-color: var(--sidebar-bg);
+  padding: 70px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* إخفاء النص لما يكون مقفول */
+.sidebar.collapsed .doctor-name,
+.sidebar.collapsed .menu-item span {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+/* ترتيب الأيقونة مع النص */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-profile img {
+  width: 60px;
+  height: 60px;
+}
+
+.doctor-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.menu-item {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.menu-item.active {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+
+/* =========================
+   5. MAIN CONTENT
+========================= */
+.patients-content {
+  flex: 1;
+  padding: 52px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.patients-header h1 {
+  margin: 0;
+  font-size: 34px;
+  color: var(--text-dark);
+}
+
+.patients-header p {
+  color: #757575;
+  font-size: 18px;
+}
+
+.patients-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+}
+
+/* =========================
+   6. BUTTONS
+========================= */
+.btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.btn-secondary {
+  background-color: #e9f2fb;
+  color: var(--primary);
+}
+
+/* =========================
+   7. PATIENTS GRID
+========================= */
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+/* =========================
+   8. PATIENT CARD
+========================= */
+.patient-card {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.patient-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-info img {
+  width: 48px;
+  height: 48px;
+}
+
+.patient-name {
+  margin: 0;
+  font-size: 16px;
+  color: var(--text-dark);
+}
+
+.patient-id {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* =========================
+   9. STATUS BADGES
+========================= */
+.patient-status {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.patient-status.severe {
+  background-color: #fdecea;
+  color: #d93025;
+}
+
+.patient-status.moderate {
+  background-color: #fff4e5;
+  color: #f29900;
+}
+
+.patient-status.mild {
+  background-color: #e6f4ea;
+  color: #137333;
+}
