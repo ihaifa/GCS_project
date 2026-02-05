@@ -1,0 +1,770 @@
+/* ========================================
+   PATIENT MANAGEMENT SYSTEM - STYLES
+   نظام إدارة المرضى - ملف التنسيقات
+======================================== */
+
+/* ========================================
+   1. GLOBAL RESET
+   إعادة تعيين الإعدادات العامة للمتصفح
+======================================== */
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  font-family: "Plus Jakarta Sans", Helvetica, Arial, sans-serif;
+  background-color: #fcfafa;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:focus-visible {
+  outline: 2px solid #2588cf;
+}
+
+/* ========================================
+   2. CSS VARIABLES
+   المتغيرات المشتركة للألوان والأحجام
+======================================== */
+:root {
+  --primary: #2588cf;
+  --sidebar-bg: #f3f8fc;
+  --text-dark: #2a292e;
+  --text-muted: #6c6c6e;
+  --border-light: #bdbdc1;
+  --white: #ffffff;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+}
+
+/* ========================================
+   3. PAGE LAYOUT
+   تخطيط الصفحة الرئيسي
+======================================== */
+.patients-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ========================================
+   4. SIDEBAR
+   القائمة الجانبية
+======================================== */
+.sidebar {
+  width: 233px;
+  background-color: var(--sidebar-bg);
+  padding: 70px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar.collapsed .doctor-name,
+.sidebar.collapsed .menu-item span {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-profile img {
+  width: 60px;
+  height: 60px;
+}
+
+.doctor-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.menu-item {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.menu-item.active {
+  background-color: #2588CF;
+  color: var(--white);
+}
+
+.menu-item.logout {
+  color: var(--text-muted);
+}
+
+.menu-item.logout.active {
+  background-color: #F44336;
+  color: var(--white);
+}
+
+.menu-item.active img {
+  filter: brightness(0) invert(1);
+}
+
+/* ========================================
+   5. MAIN CONTENT
+   المحتوى الرئيسي
+======================================== */
+.patients-content {
+  flex: 1;
+  padding: 52px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.patients-header h1 {
+  margin: 0;
+  font-size: 34px;
+  color: var(--text-dark);
+}
+
+.patients-header p {
+  color: #757575;
+  font-size: 18px;
+}
+
+.patients-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input {
+  width: 640px;
+  height: 48px;
+  padding: 0 20px 0 48px;
+  border-radius: 50px;
+  border: 1px solid var(--border-light);
+  font-size: 15px;
+  background-image: url("img/search.svg");
+  background-repeat: no-repeat;
+  background-position: 16px center;
+  background-size: 20px 20px;
+}
+
+/* ========================================
+   6. BUTTONS
+   تنسيقات الأزرار
+======================================== */
+.btn {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: #1e6ba8;
+}
+
+.btn-secondary {
+  background-color: #4682b4;
+  color: var(--white);
+  width: 100%;
+}
+
+.btn-secondary:hover {
+  background-color: #3a6d96;
+}
+
+/* ========================================
+   7. PATIENTS GRID
+   شبكة عرض بطاقات المرضى
+======================================== */
+.patients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+  max-width: 100%;
+}
+
+/* ========================================
+   8. PATIENT CARD
+   بطاقة المريض الواحدة
+======================================== */
+.patient-card {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+.patient-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.patient-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-info img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+.patient-name {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.patient-id {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ========================================
+   9. STATUS BADGES
+   شارات حالة المريض
+======================================== */
+.patient-status {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.patient-status.severe {
+  background-color: #fdecea;
+  color: #d93025;
+}
+
+.patient-status.moderate {
+  background-color: #fff4e5;
+  color: #f29900;
+}
+
+.patient-status.mild {
+  background-color: #e6f4ea;
+  color: #137333;
+}
+
+/* ========================================
+   10. MODAL SYSTEM
+   نظام النوافذ المنبثقة
+======================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  background: var(--white);
+  width: 720px;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.modal h2 {
+  margin: 0 0 24px 0;
+  text-align: center;
+  color: var(--text-dark);
+}
+
+/* ========================================
+   11. ADD PATIENT FORM
+   فورم إضافة مريض جديد
+======================================== */
+.add-patient-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.form-group input {
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+}
+
+.gender-options {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.add-patient-form button {
+  align-self: center;
+  width: 200px;
+}
+
+/* ========================================
+   12. FORM VALIDATION
+   رسائل الخطأ
+======================================== */
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 6px;
+  display: block;
+  font-weight: 400;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.form-group.has-error input,
+.edit-form-group.has-error input {
+  border-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.form-group.has-error .error-message,
+.edit-form-group.has-error .error-message {
+  opacity: 1;
+  height: auto;
+  margin-top: 6px;
+}
+
+.form-group.has-error input:focus,
+.edit-form-group.has-error input:focus {
+  outline: 2px solid #e74c3c;
+  outline-offset: 1px;
+}
+
+/* ========================================
+   13. PATIENT DETAILS MODAL
+   نافذة تفاصيل المريض
+======================================== */
+.patient-details-modal {
+  width: 550px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  position: relative;
+  background-color: #FCFAFA;
+}
+
+.patient-info-btn-top {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background-color: #FFFFFF;
+  border: 1px solid #d5d5d5;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #6C6C6E;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.patient-info-btn-top:hover {
+  background-color: #f5f5f5;
+  border-color: #b5b5b5;
+}
+
+.patient-info-btn-top img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(44%) sepia(0%) saturate(0%) hue-rotate(184deg) brightness(95%) contrast(87%);
+}
+
+.modal-patient-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.modal-patient-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.modal-patient-center h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.modal-patient-center p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.modal-patient-center .patient-status {
+  margin-top: 4px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.btn-action {
+  flex: 1;
+  height: 52px;
+  padding: 0 24px;
+  background-color: #2588CF;
+  color: var(--white);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-action:hover {
+  background-color: #1e7bb5;
+}
+
+.btn-action:active {
+  transform: scale(0.98);
+}
+
+/* ========================================
+   14. PATIENT INFO PAGE
+   صفحة معلومات المريض
+======================================== */
+.patient-info-section {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 32px 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+}
+
+.patient-info-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.patient-info-header-bar h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.patient-info-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-remove {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border: 1px solid #ff4444;
+  border-radius: 8px;
+  color: #ff4444;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-remove:hover {
+  background-color: #fff5f5;
+}
+
+.btn-remove img {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-edit {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  color: #6C6C6E;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit:hover {
+  background-color: #f5f5f5;
+  border-color: #b5b5b5;
+}
+
+.btn-edit img {
+  width: 18px;
+  height: 18px;
+}
+
+.patient-info-card-main {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.patient-info-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.patient-info-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.patient-info-name-id {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patient-info-name-id h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.patient-info-name-id span {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.patient-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.info-value {
+  font-size: 15px;
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+/* ========================================
+   15. EDIT PATIENT MODAL
+   نافذة تعديل المريض
+======================================== */
+.edit-patient-modal {
+  width: 500px;
+  padding: 32px;
+}
+
+.edit-patient-modal h2 {
+  margin: 0 0 28px 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.edit-patient-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.edit-form-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.edit-patient-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.edit-form-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.edit-form-group input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #d5d5d5;
+  font-size: 14px;
+  color: var(--text-dark);
+  transition: all 0.2s;
+}
+
+.edit-form-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.edit-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.btn-save {
+  padding: 12px 32px;
+  background-color: var(--primary);
+  color: var(--white);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-save:hover {
+  background-color: #1e7bb5;
+}
+
+.btn-cancel {
+  padding: 12px 32px;
+  background-color: #ffffff;
+  color: var(--text-dark);
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #f5f5f5;
+}

@@ -1,0 +1,688 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patients Overview - Dr. Khalid</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  
+  <body>
+    <div class="patients-page">
+      <!-- ============================================
+           SIDEBAR - القائمة الجانبية
+      ============================================= -->
+      <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-profile">
+          <img src="img/Doctor.svg" alt="Dr. Khalid profile picture" />
+          <span class="doctor-name">Dr. Khalid</span>
+        </div>
+
+        <nav class="sidebar-menu">
+          <a href="#patients" class="menu-item active">
+            <img src="img/patients icon.svg"/>
+            <span>Patients</span>
+          </a>
+          <a href="#profile" class="menu-item">
+            <img src="img/stethoscope.svg"/>
+            <span>Profile</span>
+          </a>
+          <a href="#logout" class="menu-item logout">
+            <img src="img/logout.svg"/>
+            <span>Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- ============================================
+           MAIN CONTENT - المحتوى الرئيسي
+      ============================================= -->
+      <main class="patients-content">
+        <header class="patients-header">
+          <h1>Patients Overview</h1>
+          <p>Select a patient to manage assessments or view monitoring data</p>
+
+          <div class="patients-actions">
+            <input
+              type="search"
+              class="search-input"
+              placeholder="Search patient by ID"
+              aria-label="Search patient by ID"
+            />
+            <button class="btn btn-primary" id="addPatientBtn">
+              <img src="img/addPatient.svg"/>
+              <span>Add Patient</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- ============================================
+             PATIENTS GRID - شبكة بطاقات المرضى
+        ============================================= -->
+        <section class="patients-grid">
+          <!-- Patient Cards -->
+          <article class="patient-card" data-age="35" data-room="R-101">
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="img/male pic.svg" alt="Saleh Al-Otaibi" />
+                <div>
+                  <h2 class="patient-name">Saleh Al-Otaibi</h2>
+                  <span class="patient-id">P-1033</span>
+                </div>
+              </div>
+              <span class="patient-status severe">Severe</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          </article>
+
+          <article class="patient-card" data-age="28" data-room="R-205">
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="img/female.svg" alt="Sara Al-Mutiri" />
+                <div>
+                  <h2 class="patient-name">Sara Al-Mutiri</h2>
+                  <span class="patient-id">P-1043</span>
+                </div>
+              </div>
+              <span class="patient-status mild">Mild</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          </article>
+
+          <article class="patient-card" data-age="42" data-room="R-206">
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="img/male pic.svg" alt="Khalid Al-Shammari" />
+                <div>
+                  <h2 class="patient-name">Khalid Al-Shammari</h2>
+                  <span class="patient-id">P-1079</span>
+                </div>
+              </div>
+              <span class="patient-status moderate">Moderate</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          </article>
+
+          <article class="patient-card" data-age="55" data-room="R-103">
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="img/male pic.svg" alt="Ahmed Al-Qahtani" />
+                <div>
+                  <h2 class="patient-name">Ahmed Al-Qahtani</h2>
+                  <span class="patient-id">P-1023</span>
+                </div>
+              </div>
+              <span class="patient-status moderate">Moderate</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          </article>
+
+          <article class="patient-card" data-age="48" data-room="R-304">
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="img/male pic.svg" alt="Fahad Al-Saadi" />
+                <div>
+                  <h2 class="patient-name">Fahad Al-Saadi</h2>
+                  <span class="patient-id">P-1082</span>
+                </div>
+              </div>
+              <span class="patient-status moderate">Moderate</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          </article>
+
+          <article class="patient-card" data-age="32" data-room="R-208">
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="img/female.svg" alt="Nourah Al-Saleh" />
+                <div>
+                  <h2 class="patient-name">Nourah Al-Saleh</h2>
+                  <span class="patient-id">P-1041</span>
+                </div>
+              </div>
+              <span class="patient-status mild">Mild</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <!-- ============================================
+         ADD PATIENT MODAL - نافذة إضافة مريض
+    ============================================= -->
+    <div class="modal-overlay" id="addPatientModal">
+      <div class="modal">
+        <h2>Add New Patient</h2>
+        
+        <form class="add-patient-form" id="addPatientForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="fullName" placeholder="Enter patient full name" />
+              <span class="error-message" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Gender</label>
+              <div class="gender-options">
+                <label><input type="radio" name="gender" value="male"/> Male</label>
+                <label><input type="radio" name="gender" value="female" /> Female</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Patient ID</label>
+              <input type="text" id="patientId" placeholder="e.g., P-1097" />
+              <span class="error-message" id="patientIdError"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Room Number</label>
+              <input type="text" id="roomNumber" placeholder="e.g., R-206" />
+              <span class="error-message" id="roomError"></span>
+            </div>
+
+            <div class="form-group">
+              <label>Age</label>
+              <input type="text" id="age" inputmode="numeric" pattern="[0-9]*" placeholder="Enter patient Age" />
+              <span class="error-message" id="ageError"></span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">+ Add</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================
+         PATIENT DETAILS MODAL - نافذة تفاصيل المريض
+    ============================================= -->
+    <div class="modal-overlay" id="patientDetailsModal">
+      <div class="modal patient-details-modal">
+        <button class="patient-info-btn-top" id="patientInfoBtn">
+          <img src="img/patients icon.svg" alt="Info" />
+          Patient Info
+        </button>
+
+        <div class="modal-patient-center">
+          <img src="img/male pic.svg" alt="Patient" id="modalPatientAvatar" class="modal-patient-avatar" />
+          <h2 id="modalPatientName">Khalid Al-Shammari</h2>
+          <p id="modalPatientDetails">P-1079 | Age: 42 | R-206</p>
+          <span class="patient-status moderate" id="modalPatientStatus">Moderate</span>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-action" id="viewGcsBtn">View GCS Assessments</button>
+          <button class="btn btn-action" id="viewMonitoringBtn">View Monitoring</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT
+    ============================================= -->
+    <script>
+      // ============================================
+      // 1. DOM ELEMENTS - عناصر الصفحة
+      // ============================================
+      const DOM = {
+        // Sidebar
+        sidebar: document.getElementById("sidebar"),
+        
+        // Add Patient Modal
+        addPatientModal: document.getElementById("addPatientModal"),
+        addPatientForm: document.getElementById("addPatientForm"),
+        addPatientBtn: document.getElementById("addPatientBtn"),
+        patientsGrid: document.querySelector(".patients-grid"),
+        
+        // Patient Details Modal
+        patientDetailsModal: document.getElementById("patientDetailsModal"),
+        modalPatientAvatar: document.getElementById("modalPatientAvatar"),
+        modalPatientName: document.getElementById("modalPatientName"),
+        modalPatientDetails: document.getElementById("modalPatientDetails"),
+        modalPatientStatus: document.getElementById("modalPatientStatus"),
+        patientInfoBtn: document.getElementById("patientInfoBtn"),
+        viewGcsBtn: document.getElementById("viewGcsBtn"),
+        viewMonitoringBtn: document.getElementById("viewMonitoringBtn"),
+        
+        // Form Inputs
+        inputs: {
+          fullName: document.getElementById("fullName"),
+          patientId: document.getElementById("patientId"),
+          roomNumber: document.getElementById("roomNumber"),
+          age: document.getElementById("age")
+        },
+        
+        // Error Messages
+        errors: {
+          name: document.getElementById("nameError"),
+          patientId: document.getElementById("patientIdError"),
+          room: document.getElementById("roomError"),
+          age: document.getElementById("ageError")
+        }
+      };
+
+      // ============================================
+      // 2. VALIDATION RULES - قواعد التحقق
+      // ============================================
+      const VALIDATION_RULES = {
+        fullName: {
+          required: true,
+          minLength: 2,
+          maxLength: 100,
+          pattern: /^[a-zA-Z\u0600-\u06FF\s]+$/,
+          minWords: 2,
+          messages: {
+            required: "الاسم الكامل مطلوب",
+            minLength: "الاسم قصير جداً (على الأقل حرفين)",
+            maxLength: "الاسم طويل جداً (أقصى حد 100 حرف)",
+            pattern: "الاسم يجب أن يحتوي على حروف فقط",
+            minWords: "الرجاء إدخال الاسم الكامل (الأول والعائلة)"
+          }
+        },
+        patientId: {
+          required: true,
+          pattern: /^P-\d{1,6}$/,
+          messages: {
+            required: "Patient ID مطلوب",
+            pattern: "الصيغة يجب أن تكون: P-1234"
+          }
+        },
+        roomNumber: {
+          required: true,
+          pattern: /^R-\d{1,4}$/,
+          messages: {
+            required: "رقم الغرفة مطلوب",
+            pattern: "الصيغة يجب أن تكون: R-123"
+          }
+        },
+        age: {
+          required: true,
+          min: 1,
+          max: 150,
+          messages: {
+            required: "العمر مطلوب",
+            notNumber: "العمر يجب أن يكون رقماً",
+            range: "العمر يجب أن يكون بين 1 و 150"
+          }
+        }
+      };
+
+      // ============================================
+      // 3. VALIDATORS - دوال التحقق
+      // ============================================
+      const Validators = {
+        /**
+         * التحقق من الاسم الكامل
+         */
+        fullName(value) {
+          const trimmed = value.trim();
+          const rules = VALIDATION_RULES.fullName;
+          
+          if (!trimmed) return { valid: false, message: rules.messages.required };
+          if (trimmed.length < rules.minLength) return { valid: false, message: rules.messages.minLength };
+          if (trimmed.length > rules.maxLength) return { valid: false, message: rules.messages.maxLength };
+          if (!rules.pattern.test(trimmed)) return { valid: false, message: rules.messages.pattern };
+          
+          const words = trimmed.split(/\s+/).filter(word => word.length > 0);
+          if (words.length < rules.minWords) return { valid: false, message: rules.messages.minWords };
+          
+          return { valid: true };
+        },
+
+        /**
+         * التحقق من Patient ID
+         */
+        patientId(value) {
+          const trimmed = value.trim();
+          const rules = VALIDATION_RULES.patientId;
+          
+          if (!trimmed) return { valid: false, message: rules.messages.required };
+          if (!rules.pattern.test(trimmed)) return { valid: false, message: rules.messages.pattern };
+          
+          return { valid: true };
+        },
+
+        /**
+         * التحقق من رقم الغرفة
+         */
+        roomNumber(value) {
+          const trimmed = value.trim();
+          const rules = VALIDATION_RULES.roomNumber;
+          
+          if (!trimmed) return { valid: false, message: rules.messages.required };
+          if (!rules.pattern.test(trimmed)) return { valid: false, message: rules.messages.pattern };
+          
+          return { valid: true };
+        },
+
+        /**
+         * التحقق من العمر
+         */
+        age(value) {
+          const trimmed = value.trim();
+          const rules = VALIDATION_RULES.age;
+          
+          if (!trimmed) return { valid: false, message: rules.messages.required };
+          
+          const age = parseInt(trimmed);
+          if (isNaN(age)) return { valid: false, message: rules.messages.notNumber };
+          if (age < rules.min || age > rules.max) return { valid: false, message: rules.messages.range };
+          
+          return { valid: true };
+        }
+      };
+
+      // ============================================
+      // 4. UI HELPERS - دوال مساعدة للواجهة
+      // ============================================
+      const UI = {
+        /**
+         * عرض رسالة خطأ
+         */
+        showError(input, errorElement, message) {
+          input.parentElement.classList.add("has-error");
+          errorElement.textContent = message;
+        },
+
+        /**
+         * إخفاء رسالة خطأ
+         */
+        clearError(input, errorElement) {
+          input.parentElement.classList.remove("has-error");
+          errorElement.textContent = "";
+        },
+
+        /**
+         * فتح modal
+         */
+        openModal(modal) {
+          modal.classList.add("show");
+        },
+
+        /**
+         * إغلاق modal
+         */
+        closeModal(modal) {
+          modal.classList.remove("show");
+        },
+
+        /**
+         * اختيار صورة المريض حسب الجنس
+         */
+        getAvatarByGender(gender) {
+          return gender === "female" ? "img/female.svg" : "img/male pic.svg";
+        }
+      };
+
+      // ============================================
+      // 5. VALIDATION SETUP - إعداد التحقق التلقائي
+      // ============================================
+      const validationConfig = [
+        { input: DOM.inputs.fullName, error: DOM.errors.name, validator: Validators.fullName },
+        { input: DOM.inputs.patientId, error: DOM.errors.patientId, validator: Validators.patientId },
+        { input: DOM.inputs.roomNumber, error: DOM.errors.room, validator: Validators.roomNumber },
+        { input: DOM.inputs.age, error: DOM.errors.age, validator: Validators.age }
+      ];
+
+      // ربط أحداث blur لجميع الحقول
+      validationConfig.forEach(({ input, error, validator }) => {
+        input.addEventListener("blur", () => {
+          const result = validator(input.value);
+          if (!result.valid) {
+            UI.showError(input, error, result.message);
+          } else {
+            UI.clearError(input, error);
+          }
+        });
+      });
+
+      // منع إدخال غير الأرقام في حقل العمر
+      DOM.inputs.age.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, "");
+      });
+
+      // ============================================
+      // 6. PATIENT OPERATIONS - عمليات المرضى
+      // ============================================
+      const PatientOperations = {
+        /**
+         * جمع بيانات المريض من الفورم
+         */
+        getFormData() {
+          const selectedGender = DOM.addPatientForm.querySelector('input[name="gender"]:checked');
+          
+          return {
+            name: DOM.inputs.fullName.value.trim(),
+            id: DOM.inputs.patientId.value.trim(),
+            age: DOM.inputs.age.value.trim(),
+            room: DOM.inputs.roomNumber.value.trim(),
+            gender: selectedGender ? selectedGender.value : null
+          };
+        },
+
+        /**
+         * التحقق من جميع الحقول
+         */
+        validateAllFields(patient) {
+          let isValid = true;
+
+          // التحقق من الاسم
+          const nameCheck = Validators.fullName(patient.name);
+          if (!nameCheck.valid) {
+            UI.showError(DOM.inputs.fullName, DOM.errors.name, nameCheck.message);
+            isValid = false;
+          } else {
+            UI.clearError(DOM.inputs.fullName, DOM.errors.name);
+          }
+
+          // التحقق من Patient ID
+          const idCheck = Validators.patientId(patient.id);
+          if (!idCheck.valid) {
+            UI.showError(DOM.inputs.patientId, DOM.errors.patientId, idCheck.message);
+            isValid = false;
+          } else {
+            UI.clearError(DOM.inputs.patientId, DOM.errors.patientId);
+          }
+
+          // التحقق من رقم الغرفة
+          const roomCheck = Validators.roomNumber(patient.room);
+          if (!roomCheck.valid) {
+            UI.showError(DOM.inputs.roomNumber, DOM.errors.room, roomCheck.message);
+            isValid = false;
+          } else {
+            UI.clearError(DOM.inputs.roomNumber, DOM.errors.room);
+          }
+
+          // التحقق من العمر
+          const ageCheck = Validators.age(patient.age);
+          if (!ageCheck.valid) {
+            UI.showError(DOM.inputs.age, DOM.errors.age, ageCheck.message);
+            isValid = false;
+          } else {
+            UI.clearError(DOM.inputs.age, DOM.errors.age);
+          }
+
+          if (!patient.gender) {
+            alert("الرجاء اختيار الجنس (ذكر أو أنثى)");
+            isValid = false;
+          }
+
+          return isValid;
+        },
+
+        /**
+         * إنشاء بطاقة مريض جديدة
+         */
+        createPatientCard(patient) {
+          const avatar = UI.getAvatarByGender(patient.gender);
+          const card = document.createElement("article");
+          card.className = "patient-card";
+          card.dataset.age = patient.age;
+          card.dataset.room = patient.room;
+          
+          card.innerHTML = `
+            <div class="patient-card-header">
+              <div class="patient-info">
+                <img src="${avatar}" alt="${patient.name}" />
+                <div>
+                  <h2 class="patient-name">${patient.name}</h2>
+                  <span class="patient-id">${patient.id}</span>
+                </div>
+              </div>
+              <span class="patient-status mild">Mild</span>
+            </div>
+            <button class="btn btn-secondary view-patient-btn">View Patient</button>
+          `;
+          
+          // ربط زر View Patient
+          const viewBtn = card.querySelector(".view-patient-btn");
+          viewBtn.addEventListener("click", () => {
+            this.openPatientDetails({
+              name: patient.name,
+              id: patient.id,
+              age: patient.age,
+              room: patient.room,
+              gender: patient.gender,
+              status: "mild"
+            });
+          });
+          
+          return card;
+        },
+
+        /**
+         * استخراج بيانات المريض من البطاقة
+         */
+        extractPatientDataFromCard(card) {
+          const name = card.querySelector(".patient-name").textContent;
+          const id = card.querySelector(".patient-id").textContent;
+          const statusEl = card.querySelector(".patient-status");
+          const status = statusEl.textContent.toLowerCase();
+          const avatar = card.querySelector(".patient-info img").src;
+          const gender = avatar.includes("female") ? "female" : "male";
+          const age = card.dataset.age || "42";
+          const room = card.dataset.room || "R-206";
+          
+          return { name, id, age, room, gender, status };
+        },
+
+        /**
+         * فتح نافذة تفاصيل المريض
+         */
+        openPatientDetails(patient) {
+          window.currentPatientData = patient;
+          
+          const avatar = UI.getAvatarByGender(patient.gender);
+          DOM.modalPatientAvatar.src = avatar;
+          DOM.modalPatientName.textContent = patient.name;
+          DOM.modalPatientDetails.textContent = `${patient.id} | Age: ${patient.age} | ${patient.room}`;
+          DOM.modalPatientStatus.textContent = patient.status.charAt(0).toUpperCase() + patient.status.slice(1);
+          DOM.modalPatientStatus.className = `patient-status ${patient.status}`;
+          
+          UI.openModal(DOM.patientDetailsModal);
+        }
+      };
+
+      // ============================================
+      // 7. EVENT HANDLERS - معالجات الأحداث
+      // ============================================
+      
+      // Sidebar toggle
+      DOM.sidebar.addEventListener("click", (e) => {
+        if (e.target.closest("a")) return;
+        DOM.sidebar.classList.toggle("collapsed");
+      });
+
+      // ============================================
+      // SEARCH - البحث عن المريض بالـ ID
+      // ============================================
+      const searchInput = document.querySelector('.search-input');
+      
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.patient-card');
+        
+        cards.forEach(card => {
+          const patientId = card.querySelector('.patient-id').textContent.toLowerCase();
+          
+          // إذا الـ ID يطابق البحث، أظهر البطاقة، وإلا أخفها
+          if (patientId.includes(searchTerm)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+
+      // فتح نافذة إضافة مريض
+      DOM.addPatientBtn.addEventListener("click", () => {
+        UI.openModal(DOM.addPatientModal);
+      });
+
+      // إغلاق النوافذ عند الضغط على الخلفية
+      [DOM.addPatientModal, DOM.patientDetailsModal].forEach(modal => {
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            UI.closeModal(modal);
+            if (modal === DOM.addPatientModal) {
+              DOM.addPatientForm.reset();
+              validationConfig.forEach(({ input, error }) => {
+                UI.clearError(input, error);
+              });
+            }
+          }
+        });
+      });
+
+      // إضافة مريض جديد
+      DOM.addPatientForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const patient = PatientOperations.getFormData();
+        
+        if (!PatientOperations.validateAllFields(patient)) return;
+        
+        const card = PatientOperations.createPatientCard(patient);
+        DOM.patientsGrid.prepend(card);
+        
+        UI.closeModal(DOM.addPatientModal);
+        DOM.addPatientForm.reset();
+        validationConfig.forEach(({ input, error }) => {
+          UI.clearError(input, error);
+        });
+      });
+
+      // ربط أزرار View Patient الموجودة
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".view-patient-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            const card = e.target.closest(".patient-card");
+            const patientData = PatientOperations.extractPatientDataFromCard(card);
+            PatientOperations.openPatientDetails(patientData);
+          });
+        });
+      });
+
+      // زر Patient Info
+      DOM.patientInfoBtn.addEventListener("click", () => {
+        if (window.currentPatientData) {
+          localStorage.setItem('currentPatient', JSON.stringify(window.currentPatientData));
+          window.location.href = 'patient-info.html';
+        }
+      });
+
+      // أزرار GCS و Monitoring
+      DOM.viewGcsBtn.addEventListener("click", () => {
+        console.log("View GCS Assessments clicked");
+        // TODO: ربط مع صفحة GCS
+      });
+
+      DOM.viewMonitoringBtn.addEventListener("click", () => {
+        console.log("View Monitoring clicked");
+        // TODO: ربط مع صفحة Monitoring
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Patient Information - Dr. Khalid</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="patients-page">
+      <!-- ============================================
+           SIDEBAR
+      ============================================= -->
+      <aside class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-profile">
+          <img src="img/Doctor.svg" alt="Dr. Khalid profile picture" />
+          <span class="doctor-name">Dr. Khalid</span>
+        </div>
+
+        <nav class="sidebar-menu">
+          <a href="index.html" class="menu-item active">
+            <img src="img/patients icon.svg"/>
+            <span>Patients</span>
+          </a>
+          <a href="#profile" class="menu-item">
+            <img src="img/stethoscope.svg"/>
+            <span>Profile</span>
+          </a>
+          <a href="#logout" class="menu-item logout">
+            <img src="img/logout.svg"/>
+            <span>Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- ============================================
+           MAIN CONTENT
+      ============================================= -->
+      <main class="patients-content">
+        <header class="patients-header">
+          <h1>Patient Information</h1>
+        </header>
+
+        <section class="patient-info-section">
+          <div class="patient-info-header-bar">
+            <h2>Personal Information</h2>
+            <div class="patient-info-actions">
+              <button class="btn btn-remove" id="removeBtn">
+                <img src="img/remove.svg" alt="Remove" />
+                Remove
+              </button>
+              <button class="btn btn-edit" id="editBtn">
+                <img src="img/edit.svg" alt="Edit" />
+                Edit
+              </button>
+            </div>
+          </div>
+
+          <div class="patient-info-card-main">
+            <img src="img/male pic.svg" alt="Patient" id="patientAvatar" class="patient-info-avatar" />
+            
+            <div class="patient-info-details">
+              <div class="patient-info-name-id">
+                <h3 id="patientName">Khalid Al-Shammari</h3>
+                <span id="patientId">P-1079</span>
+              </div>
+
+              <div class="patient-info-grid">
+                <div class="info-item">
+                  <span class="info-label">Full Name</span>
+                  <span class="info-value" id="patientFullName">Khalid Al-Shammari</span>
+                </div>
+                
+                <div class="info-item">
+                  <span class="info-label">Age</span>
+                  <span class="info-value" id="patientAge">42 yrs</span>
+                </div>
+                
+                <div class="info-item">
+                  <span class="info-label">Room No</span>
+                  <span class="info-value" id="patientRoom">R-206</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ============================================
+         EDIT PATIENT MODAL
+    ============================================= -->
+    <div class="modal-overlay" id="editPatientModal">
+      <div class="modal edit-patient-modal">
+        <h2>Personal Information</h2>
+
+        <form class="edit-patient-form" id="editPatientForm">
+          <div class="edit-form-center">
+            <img src="img/male pic.svg" alt="Patient" id="editPatientAvatar" class="edit-patient-avatar" />
+            
+            <div class="edit-form-group">
+              <label>Full Name</label>
+              <input type="text" id="editFullName" placeholder="Enter full name" />
+              <span class="error-message" id="editNameError"></span>
+            </div>
+
+            <div class="edit-form-group">
+              <label>Age</label>
+              <input type="text" id="editAge" inputmode="numeric" pattern="[0-9]*" placeholder="Enter age" />
+              <span class="error-message" id="editAgeError"></span>
+            </div>
+
+            <div class="edit-form-group">
+              <label>Room no</label>
+              <input type="text" id="editRoom" placeholder="Enter room number" />
+              <span class="error-message" id="editRoomError"></span>
+            </div>
+          </div>
+
+          <div class="edit-modal-actions">
+            <button type="submit" class="btn btn-save">Save</button>
+            <button type="button" class="btn btn-cancel" id="cancelEditBtn">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT
+    ============================================= -->
+    <script>
+      // ============================================
+      // 1. DOM ELEMENTS
+      // ============================================
+      const DOM = {
+        sidebar: document.getElementById("sidebar"),
+        editModal: document.getElementById("editPatientModal"),
+        editForm: document.getElementById("editPatientForm"),
+        editBtn: document.getElementById("editBtn"),
+        removeBtn: document.getElementById("removeBtn"),
+        cancelBtn: document.getElementById("cancelEditBtn"),
+        
+        inputs: {
+          editFullName: document.getElementById('editFullName'),
+          editAge: document.getElementById('editAge'),
+          editRoom: document.getElementById('editRoom')
+        },
+        
+        errors: {
+          editName: document.getElementById('editNameError'),
+          editAge: document.getElementById('editAgeError'),
+          editRoom: document.getElementById('editRoomError')
+        },
+        
+        display: {
+          avatar: document.getElementById('patientAvatar'),
+          name: document.getElementById('patientName'),
+          id: document.getElementById('patientId'),
+          fullName: document.getElementById('patientFullName'),
+          age: document.getElementById('patientAge'),
+          room: document.getElementById('patientRoom'),
+          editAvatar: document.getElementById('editPatientAvatar')
+        }
+      };
+
+      // ============================================
+      // 2. VALIDATION (نفس الـ validators من index.html)
+      // ============================================
+      const Validators = {
+        fullName(value) {
+          const trimmed = value.trim();
+          if (!trimmed) return { valid: false, message: "الاسم الكامل مطلوب" };
+          if (trimmed.length < 2) return { valid: false, message: "الاسم قصير جداً (على الأقل حرفين)" };
+          if (trimmed.length > 100) return { valid: false, message: "الاسم طويل جداً (أقصى حد 100 حرف)" };
+          
+          const namePattern = /^[a-zA-Z\u0600-\u06FF\s]+$/;
+          if (!namePattern.test(trimmed)) return { valid: false, message: "الاسم يجب أن يحتوي على حروف فقط" };
+          
+          const words = trimmed.split(/\s+/).filter(word => word.length > 0);
+          if (words.length < 2) return { valid: false, message: "الرجاء إدخال الاسم الكامل (الأول والعائلة)" };
+          
+          return { valid: true };
+        },
+
+        age(value) {
+          const trimmed = value.trim();
+          if (!trimmed) return { valid: false, message: "العمر مطلوب" };
+          
+          const age = parseInt(trimmed);
+          if (isNaN(age)) return { valid: false, message: "العمر يجب أن يكون رقماً" };
+          if (age < 1 || age > 150) return { valid: false, message: "العمر يجب أن يكون بين 1 و 150" };
+          
+          return { valid: true };
+        },
+
+        roomNumber(value) {
+          const trimmed = value.trim();
+          if (!trimmed) return { valid: false, message: "رقم الغرفة مطلوب" };
+          
+          const roomPattern = /^R-\d{1,4}$/;
+          if (!roomPattern.test(trimmed)) return { valid: false, message: "الصيغة يجب أن تكون: R-123" };
+          
+          return { valid: true };
+        }
+      };
+
+      // ============================================
+      // 3. UI HELPERS
+      // ============================================
+      const UI = {
+        showError(input, errorElement, message) {
+          input.parentElement.classList.add('has-error');
+          errorElement.textContent = message;
+        },
+
+        clearError(input, errorElement) {
+          input.parentElement.classList.remove('has-error');
+          errorElement.textContent = '';
+        },
+
+        openModal(modal) {
+          modal.classList.add('show');
+        },
+
+        closeModal(modal) {
+          modal.classList.remove('show');
+        },
+
+        getAvatarByGender(gender) {
+          return gender === 'female' ? 'img/female.svg' : 'img/male pic.svg';
+        }
+      };
+
+      // ============================================
+      // 4. VALIDATION SETUP
+      // ============================================
+      const validationConfig = [
+        { input: DOM.inputs.editFullName, error: DOM.errors.editName, validator: Validators.fullName },
+        { input: DOM.inputs.editAge, error: DOM.errors.editAge, validator: Validators.age },
+        { input: DOM.inputs.editRoom, error: DOM.errors.editRoom, validator: Validators.roomNumber }
+      ];
+
+      // إعداد التحقق التلقائي
+      validationConfig.forEach(({ input, error, validator }) => {
+        input.addEventListener('blur', () => {
+          const result = validator(input.value);
+          if (!result.valid) {
+            UI.showError(input, error, result.message);
+          } else {
+            UI.clearError(input, error);
+          }
+        });
+      });
+
+      // منع إدخال غير الأرقام في حقل العمر
+      DOM.inputs.editAge.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+      });
+
+      // ============================================
+      // 5. PATIENT DATA OPERATIONS
+      // ============================================
+      const PatientData = {
+        data: null,
+
+        /**
+         * تحميل بيانات المريض من localStorage
+         */
+        load() {
+          this.data = JSON.parse(localStorage.getItem('currentPatient') || '{}');
+          
+          if (this.data.name) {
+            this.displayPatientInfo();
+          }
+        },
+
+        /**
+         * عرض معلومات المريض
+         */
+        displayPatientInfo() {
+          DOM.display.name.textContent = this.data.name;
+          DOM.display.id.textContent = this.data.id;
+          DOM.display.fullName.textContent = this.data.name;
+          DOM.display.age.textContent = this.data.age + ' yrs';
+          DOM.display.room.textContent = this.data.room;
+          
+          const avatar = UI.getAvatarByGender(this.data.gender);
+          DOM.display.avatar.src = avatar;
+        },
+
+        /**
+         * حفظ البيانات المعدلة
+         */
+        save(newData) {
+          this.data = { ...this.data, ...newData };
+          localStorage.setItem('currentPatient', JSON.stringify(this.data));
+          this.displayPatientInfo();
+        },
+
+        /**
+         * التحقق من جميع الحقول
+         */
+        validateAll() {
+          let isValid = true;
+
+          validationConfig.forEach(({ input, error, validator }) => {
+            const result = validator(input.value);
+            if (!result.valid) {
+              UI.showError(input, error, result.message);
+              isValid = false;
+            } else {
+              UI.clearError(input, error);
+            }
+          });
+
+          return isValid;
+        },
+
+        /**
+         * ملء الفورم ببيانات المريض
+         */
+        fillEditForm() {
+          DOM.inputs.editFullName.value = this.data.name;
+          DOM.inputs.editAge.value = this.data.age;
+          DOM.inputs.editRoom.value = this.data.room;
+          
+          const avatar = UI.getAvatarByGender(this.data.gender);
+          DOM.display.editAvatar.src = avatar;
+        },
+
+        /**
+         * مسح رسائل الخطأ
+         */
+        clearAllErrors() {
+          validationConfig.forEach(({ input, error }) => {
+            UI.clearError(input, error);
+          });
+        }
+      };
+
+      // ============================================
+      // 6. EVENT HANDLERS
+      // ============================================
+      
+      // Sidebar toggle
+      DOM.sidebar.addEventListener("click", (e) => {
+        if (e.target.closest("a")) return;
+        DOM.sidebar.classList.toggle("collapsed");
+      });
+
+      // زر Edit
+      DOM.editBtn.addEventListener('click', () => {
+        PatientData.fillEditForm();
+        UI.openModal(DOM.editModal);
+      });
+
+      // زر Cancel
+      DOM.cancelBtn.addEventListener('click', () => {
+        UI.closeModal(DOM.editModal);
+        PatientData.clearAllErrors();
+      });
+
+      // إغلاق عند الضغط على الخلفية
+      DOM.editModal.addEventListener('click', (e) => {
+        if (e.target === DOM.editModal) {
+          UI.closeModal(DOM.editModal);
+          PatientData.clearAllErrors();
+        }
+      });
+
+      // حفظ التعديلات
+      DOM.editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if (!PatientData.validateAll()) return;
+        
+        const newData = {
+          name: DOM.inputs.editFullName.value.trim(),
+          age: DOM.inputs.editAge.value.trim(),
+          room: DOM.inputs.editRoom.value.trim()
+        };
+        
+        PatientData.save(newData);
+        UI.closeModal(DOM.editModal);
+        alert('تم حفظ التعديلات بنجاح!');
+      });
+
+      // زر Remove
+      DOM.removeBtn.addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من حذف هذا المريض؟')) {
+          alert('تم حذف المريض');
+          window.location.href = 'index.html';
+        }
+      });
+
+      // ============================================
+      // 7. INITIALIZATION
+      // ============================================
+      PatientData.load();
+    </script>
+  </body>
+</html>
